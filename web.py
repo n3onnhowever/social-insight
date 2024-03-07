@@ -1,46 +1,44 @@
 import streamlit as st
 import pandas as pd
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
 
-# Загрузка датасета из CSV файла
+# Загрузка данных из CSV файла
 @st.cache
 def load_data(filename):
     df = pd.read_csv(filename)
     return df
 
-# Функция для анализа текста
-def analyze_text(text):
-    # Здесь должен быть ваш код для анализа текста
-    # Например, если у вас есть модель машинного обучения, вы можете использовать ее здесь
-    # Вернем просто заглушку
-    return "Категория текста: Примерная"
+# Загрузка модели BERT и токенизатора
+@st.cache(allow_output_mutation=True)
+def load_model_and_tokenizer(model_name_or_path):
+    tokenizer = BertTokenizer.from_pretrained(model_name_or_path)
+    model = BertForSequenceClassification.from_pretrained(model_name_or_path)
+    return tokenizer, model
+
+# Функция для предсказания категории текста
+def predict_category(text, tokenizer, model):
+    # Токенизируем текст
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+
+    # Получаем предсказания от модели
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    # Получаем предсказанную категорию
+    predicted_label = torch.argmax(outputs.logits).item()
+    return predicted_label
 
 # Главный код Streamlit
 def main():
-    st.title('Веб-сервис анализа данных и текстов')
-    
-    # Добавляем пользовательские стили для создания синего градиента
-    st.markdown(
-        """
-        <style>
-        body {
-            background-image: linear-gradient(to right, #33ccff, #0077b3);
-            color: white;
-        }
-        .stButton>button {
-            background-color: #0077b3;
-        }
-        .stDataFrame>div>div>div>div>div {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    
+    st.set_page_config(layout="wide")
+
+    st.title('Веб-сервис анализа данных и текстов с BERT')
+
     # Опции для выбора вкладок
     options = ['Аналитика данных', 'Проверка модели']
     choice = st.sidebar.selectbox('Выберите вкладку', options)
-    
+
     # Отображение соответствующей вкладки
     if choice == 'Аналитика данных':
         # Загрузка данных из CSV файла
@@ -49,18 +47,26 @@ def main():
             df = load_data(filename)
             # Выводим датасет
             st.subheader('Датасет:')
-            st.dataframe(df)
+            st.write(df)
             
             # Выводим статистику по датасету
             st.subheader('Статистика по датасету:')
             st.write(df.describe())
     elif choice == 'Проверка модели':
-        st.subheader('Введите текст для анализа:')
-        text_input = st.text_area('Введите текст сюда:')
+        st.subheader('Проверка модели BERT:')
+        # Загрузка модели и токенизатора
+        model_name_or_path = "path/to/your/model"  # Укажите путь к вашей модели
+        tokenizer, model = load_model_and_tokenizer(model_name_or_path)
+
+        # Ввод текста пользователем
+        text_input = st.text_area('Введите текст для анализа')
+
+        # Предсказание категории при нажатии на кнопку
         if st.button('Анализировать'):
             if text_input:
-                category = analyze_text(text_input)
-                st.write('Категория текста:', category)
+                # Предсказываем категорию текста
+                predicted_label = predict_category(text_input, tokenizer, model)
+                st.write('Предсказанная категория текста:', predicted_label)
             else:
                 st.write('Пожалуйста, введите текст для анализа')
 
