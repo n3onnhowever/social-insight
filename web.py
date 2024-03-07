@@ -23,8 +23,14 @@ def main():
         """
         <style>
         body {
-            background-color: #0077b3;
+            background-image: linear-gradient(to right, #33ccff, #0077b3);
             color: white;
+        }
+        .stButton>button {
+            background-color: #0077b3;
+        }
+        .stDataFrame>div>div>div>div>div {
+            background-color: rgba(0, 0, 0, 0.2);
         }
         </style>
         """,
@@ -43,7 +49,7 @@ def main():
             df = load_data(filename)
             # Выводим датасет
             st.subheader('Датасет:')
-            st.write(df)
+            st.dataframe(df)
             
             # Выводим статистику по датасету
             st.subheader('Статистика по датасету:')
@@ -60,4 +66,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
