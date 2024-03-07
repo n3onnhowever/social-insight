@@ -22,8 +22,8 @@ def main():
     st.markdown(
         """
         <style>
-        .reportview-container {
-            background: linear-gradient(to right, #33ccff, #0077b3);
+        body {
+            background-color: #0077b3;
             color: white;
         }
         </style>
@@ -60,3 +60,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
