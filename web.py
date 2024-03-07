@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import subprocess
 
 # Загрузка библиотек из файла requirements.txt
 with open('requirements.txt') as f:
@@ -11,7 +12,7 @@ requirements = [x.strip() for x in requirements]
 # Установка библиотек
 for requirement in requirements:
     st.write(f'Установка {requirement}')
-    !pip install {requirement}
+    subprocess.run(['pip', 'install', requirement])
 
 # Симулируем данные
 data = pd.DataFrame({
