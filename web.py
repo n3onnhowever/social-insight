@@ -1,13 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# Загрузка данных
-@st.cache
-def load_data():
-    df = pd.read_csv("final_verse.csv")  # Измените путь к вашему файлу с данными
-    return df
-
-df_social_media = load_data()
+df_social_media = pd.read_csv("final_verse.csv")
 
 # Функции для получения уникальных значений
 def get_unique_seasons(df_data):
