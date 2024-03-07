@@ -3,6 +3,16 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 
+# Загрузка библиотек из файла requirements.txt
+with open('requirements.txt') as f:
+    requirements = f.readlines()
+requirements = [x.strip() for x in requirements]
+
+# Установка библиотек
+for requirement in requirements:
+    st.write(f'Установка {requirement}')
+    !pip install {requirement}
+
 # Симулируем данные
 data = pd.DataFrame({
     'Category': np.random.choice(['Technology', 'Science', 'Art'], 100),
