@@ -19,7 +19,7 @@
 
 ```bash
 # 1. Клонировать репозиторий
-git clone https://github.com/yourusername/social-insight.git
+git clone https://github.com/n3onnhowever/social-insight.git
 cd social-insight
 
 # 2. Собрать Docker-образ
