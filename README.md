@@ -1,7 +1,7 @@
 # Social Insight 
 
-![version](https://img.shields.io/badge/version-0.1.0-purple)  
-![built-with](https://img.shields.io/badge/built%20with-Python%20%2B%20Streamlit-%236F42C1)  
+![version](https://img.shields.io/badge/version-0.1.0-blue)
+![built-with](https://img.shields.io/badge/built%20with-Python%20%2B%20Streamlit-blue)
 
 ## ✨ Возможности  
 
